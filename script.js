@@ -1,28 +1,49 @@
-  function carregaCEP() {
-  let cep = document.getElementById("CEP").value;
-  let url = `https://viacep.com.br/ws/${cep}/json/`;
+function carregaCEP() {
+  // pega o valor, remove espaços e quaisquer caracteres não numéricos
+  let cep = document.getElementById("CEP").value.trim().replace(/\D/g, '');
+
+  // helper para limpar campos e esconder rótulos
+  const clearFields = () => {
+    const ids = ["Bairro", "Cidade", "Estado", "Regiao", "Complemento"];
+    const labels = ["labelBairro", "labelCidade", "labelEstado", "labelRegiao", "labelComplemento"];
+    ids.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = ''; });
+    labels.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  };
+
+  // validação ANTES de montar a URL e chamar a API
+  if (cep.length !== 8) {
+    console.log("CEP inválido: precisa ter 8 dígitos");
+    alert('CEP inválido. O CEP deve conter exatamente 8 dígitos numéricos.');
+    clearFields();
+    return; // sai antes do fetch
+  }
+
+  const url = `https://viacep.com.br/ws/${cep}/json/`;
+
   // referências aos elementos de valor e seus rótulos
-  // usamos ids sem acento (Regiao) para evitar problemas com codificação
-  let bairro = document.getElementById("Bairro");
-  let cidade = document.getElementById("Cidade");
-  let estado = document.getElementById("Estado");
-  let regiao = document.getElementById("Regiao");
-  let complemento = document.getElementById("Complemento");
-  
-  let labelBairro = document.getElementById("labelBairro");
-  let labelCidade = document.getElementById("labelCidade");
-  let labelEstado = document.getElementById("labelEstado");
-  let labelRegiao = document.getElementById("labelRegiao");
-  let labelComplemento = document.getElementById("labelComplemento");
+  const bairro = document.getElementById("Bairro");
+  const cidade = document.getElementById("Cidade");
+  const estado = document.getElementById("Estado");
+  const regiao = document.getElementById("Regiao");
+  const complemento = document.getElementById("Complemento");
 
-
+  const labelBairro = document.getElementById("labelBairro");
+  const labelCidade = document.getElementById("labelCidade");
+  const labelEstado = document.getElementById("labelEstado");
+  const labelRegiao = document.getElementById("labelRegiao");
+  const labelComplemento = document.getElementById("labelComplemento");
 
   fetch(url)
-    .then((response) => {
-      return response.json();
-    })
+    .then(response => response.json())
+    .then(dados => {
+      // a API ViaCEP devolve { "erro": true } quando não encontra o CEP
+      if (dados.erro) {
+        console.log('CEP não encontrado');
+        alert('CEP não encontrado. Verifique o número e tente novamente.');
+        clearFields();
+        return;
+      }
 
-    .then((dados) => {
       // função auxiliar para preencher e mostrar/ocultar rótulo
       const setField = (valueEl, labelEl, value) => {
         if (value) {
@@ -42,15 +63,14 @@
       setField(complemento, labelComplemento, dados.complemento);
 
       console.log(dados);
-
     })
-
-    .catch((error) => {
-      console.log("erro no carregamento do CEP");
+    .catch(error => {
+      // O .catch só é executado em erros de rede ou quando lançamos um erro.
+      // Registramos o erro real para facilitar o debug.
+      console.error("erro no carregamento do CEP:", error);
+      alert('Erro ao carregar o CEP. Verifique sua conexão e tente novamente.');
     });
 }
-
-carregaCEP();
 
 
 // Projeto: "Buscador de Endereço (ViaCEP)"
