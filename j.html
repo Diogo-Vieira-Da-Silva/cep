@@ -11,14 +11,32 @@
     <input id="CEP" type="text" placeholder="CEP">
     <button onclick="carregaCEP()" id="pesquisar">Digite o CEP</button>
 
-    <p id="Bairro"></p>
-    <p id="Cidade"></p>
-    <p id="Estado"></p>
+    <!-- resultados com rótulos (labels) -->
+    <div class="result">
+      <div class="result-label" id="labelBairro" aria-hidden="true">Bairro</div>
+      <p id="Bairro" class="result-value"></p>
+    </div>
+
+    <div class="result">
+      <div class="result-label" id="labelCidade" aria-hidden="true">Cidade</div>
+      <p id="Cidade" class="result-value"></p>
+    </div>
+
+    <div class="result">
+      <div class="result-label" id="labelEstado" aria-hidden="true">Estado</div>
+      <p id="Estado" class="result-value"></p>
+    </div>
 
     <!-- novos campos -->
-    
-    <p id="Região"></p>
-    <p id="Complemento"></p>
+    <div class="result">
+      <div class="result-label" id="labelRegiao" aria-hidden="true">Região</div>
+      <p id="Regiao" class="result-value"></p>
+    </div>
+
+    <div class="result">
+      <div class="result-label" id="labelComplemento" aria-hidden="true">Complemento</div>
+      <p id="Complemento" class="result-value"></p>
+    </div>
 
 
     <script src="script.js"></script>

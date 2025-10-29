@@ -85,14 +85,22 @@ button{
 button:active{transform:translateY(1px)}
 
 /* Resultado / labels */
-p{
-  background:#f0f6fb;
+.result{margin-top:8px}
+.result-label{
+  display:none; /* será mostrado via JS quando houver conteúdo */
+  font-size:0.85rem;
+  color:#0b3b66;
+  margin-bottom:6px;
+  font-weight:600;
+}
+.result-value{
+  background:#f6fbff;
   border:1px solid #e6f0fb;
   padding:10px 12px;
   border-radius:8px;
   color:#083047;
-  margin-top:8px;
   min-height:1.6em;
+  margin:0; /* resetar margem padrão de <p> */
 }
 
 /* Pequenas melhorias responsivas */
@@ -107,4 +115,5 @@ p{
 button:focus{outline:none;box-shadow:0 6px 18px rgba(11,61,102,0.16);}
 
 /* Se houver parágrafos vazios, reduzir ruído visual */
-p:empty{display:none}
+/* esconder valores vazios */
+.result-value:empty{display:none}
